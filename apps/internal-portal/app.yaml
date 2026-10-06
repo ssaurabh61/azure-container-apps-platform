@@ -1,0 +1,33 @@
+# ==============================================================================
+# Central Internal Tools Portal Manifest
+# ==============================================================================
+version: "1.0"
+
+app:
+  name: "internal-portal"
+  title: "Enterprise Internal Tools Portal"
+  description: "Central discovery and single-sign-on directory for all platform micro-apps"
+  category: "Operations"
+  icon: "🧭"
+  tags:
+    - portal
+    - directory
+    - nginx
+
+routing:
+  subdomain: "portal"
+  targetPort: 80
+
+resources:
+  cpu: 0.25
+  memory: "0.5Gi"
+  minReplicas: 1
+  maxReplicas: 2
+
+auth:
+  provider: "entra-id"
+  enabled: true
+  allowedGroups:
+    - "Engineering"
+    - "PlatformOperations"
+    - "ProductManagement"

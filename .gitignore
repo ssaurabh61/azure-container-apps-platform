@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment and secrets
+.env
+*.env
+*.pem
+*.key
+*.token
+
+# Local storage and sqlite databases
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+data/
+/data/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Editor and IDE directories
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Terraform artifacts
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+crash.log
+
+# Build & temporary files
+dist/
+build/
+*.egg-info/
+tmp/
+scratch/

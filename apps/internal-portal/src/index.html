@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Internal Tools Portal | Azure Container Apps</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="portal-layout">
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="brand">
+        <div class="brand-logo">🧭</div>
+        <div class="brand-info">
+          <h1>Internal Tools Portal</h1>
+          <span class="badge badge-platform">Azure Container Apps</span>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <div class="search-box">
+          <input type="text" id="search-input" placeholder="Search applications, tags, or categories...">
+        </div>
+        <div class="user-pill">
+          <span class="status-dot"></span>
+          <span id="current-user">Enterprise SSO</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero / Platform Metrics -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h2>Enterprise Developer Platform Directory</h2>
+        <p>
+          Single pane of glass for all internal applications running on our <strong>Zero-Trust Azure Container Apps Environment</strong>.
+          Protected by Microsoft Entra ID EasyAuth with automated DNS and DigiCert Managed TLS certificates.
+        </p>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-number" id="total-apps">4</span>
+            <span class="stat-label">Active Applications</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">15 min</span>
+            <span class="stat-label">Provisioning SLA</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">Scale-to-0</span>
+            <span class="stat-label">FinOps Efficiency</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">GitOps Driven</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters & Catalog Grid -->
+    <main class="main-content">
+      <div class="filter-bar">
+        <div class="category-tabs" id="category-tabs">
+          <button class="tab-btn active" data-category="all">All Applications</button>
+          <button class="tab-btn" data-category="Engineering">Engineering</button>
+          <button class="tab-btn" data-category="Platform">Platform</button>
+          <button class="tab-btn" data-category="Operations">Operations</button>
+          <button class="tab-btn" data-category="Security">Security</button>
+        </div>
+      </div>
+
+      <div class="catalog-grid" id="catalog-grid">
+        <!-- Rendered via app.js -->
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="portal-footer">
+      <p>Azure Container Apps Internal Developer Platform • Engineered by Saurabh Shrihar</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

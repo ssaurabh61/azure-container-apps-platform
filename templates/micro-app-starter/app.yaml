@@ -1,0 +1,42 @@
+# ==============================================================================
+# Declarative Application Specification (app.yaml)
+# Read by the GitOps reconciler to provision compute, networking, storage & IAM.
+# ==============================================================================
+version: "1.0"
+
+app:
+  name: "micro-app-starter"
+  title: "Micro-App Starter Golden Path"
+  description: "Standardized reference microservice running on Azure Container Apps"
+  category: "Operations" # Engineering | Management | Operations | Utilities | Analytics
+  icon: "⚡"
+  tags:
+    - starter
+    - template
+    - python
+
+routing:
+  # Ingress subdomain -> https://starter.internal.example.com
+  subdomain: "starter"
+  targetPort: 8080
+
+storage:
+  # Persistent Azure File Share mount for single-writer SQLite database
+  enabled: true
+  type: "sqlite-azure-file"
+  mountPath: "/data"
+  quotaGb: 5
+
+auth:
+  provider: "entra-id"
+  enabled: true
+  # Microsoft Entra ID Security Groups authorized for SSO access
+  allowedGroups:
+    - "Engineering"
+    - "PlatformOperations"
+
+resources:
+  cpu: 0.25
+  memory: "0.5Gi"
+  minReplicas: 0 # Scales to zero when idle for maximum cost efficiency
+  maxReplicas: 2

@@ -1,0 +1,72 @@
+name: GitOps Production Deployment
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/**'
+      - 'templates/**'
+      - 'deploy/**'
+
+permissions:
+  id-token: write # Required for Azure OIDC Workload Identity authentication
+  contents: write # Required for updating portal directory if needed
+
+jobs:
+  reconcile-deployments:
+    name: Idempotent GitOps Reconciliation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Runtime Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      # Authenticate to Azure using Zero-Secret OIDC Federated Credentials
+      - name: Azure Login via Workload Identity (OIDC)
+        uses: azure/login@v2
+        if: env.AZURE_CLIENT_ID != ''
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+
+      - name: Detect Changed Micro-Apps
+        id: detect
+        run: |
+          echo "Scanning for modified application directories..."
+          CHANGED_APPS=$(git diff --name-only HEAD~1 HEAD | grep -E '^(apps|templates)/[^/]+' | cut -d/ -f1,2 | sort -u || true)
+          echo "Changed apps: ${CHANGED_APPS}"
+          echo "apps=${CHANGED_APPS}" >> $GITHUB_OUTPUT
+
+      - name: Reconcile Micro-Apps on Azure Container Apps
+        run: |
+          for app_path in ${{ steps.detect.outputs.apps }}; do
+            if [ -f "$app_path/app.yaml" ]; then
+              echo "🚀 Reconciling $app_path..."
+              python deploy/engine/reconcile.py --app "$app_path"
+            fi
+          done
+
+      - name: Commit Service Catalog Updates (if portal registry changed)
+        run: |
+          if [ -n "$(git status --porcelain apps/internal-portal/src/data/apps.json)" ]; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add apps/internal-portal/src/data/apps.json
+            git commit -m "chore(catalog): auto-sync service discovery directory [skip ci]"
+            git push origin main
+          fi

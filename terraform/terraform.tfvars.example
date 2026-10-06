@@ -1,0 +1,14 @@
+location             = "eastus"
+resource_group_name  = "rg-platform-apps"
+environment_name     = "cae-platform-apps"
+acr_name             = "crplatformapps01"
+storage_account_name = "stplatformdata01"
+log_analytics_name   = "law-platform-apps"
+key_vault_name       = "kv-platform-apps01"
+
+tags = {
+  Environment = "Production"
+  ManagedBy   = "Terraform"
+  Platform    = "AzureContainerApps"
+  Owner       = "PlatformEngineering"
+}

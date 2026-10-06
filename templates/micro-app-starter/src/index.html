@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Micro-App Starter | Azure Container Apps</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Header -->
+    <header class="navbar">
+      <div class="brand">
+        <div class="brand-logo">⚡</div>
+        <div class="brand-info">
+          <h1>Micro-App Starter</h1>
+          <span class="badge badge-platform">Azure Container Apps</span>
+        </div>
+      </div>
+      
+      <div class="user-pill" id="user-pill">
+        <div class="status-indicator"></div>
+        <span class="user-name" id="user-name">Loading identity...</span>
+        <span class="badge badge-auth" id="auth-badge">EasyAuth</span>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+      <!-- Architecture Overview Card -->
+      <section class="card banner-card">
+        <div class="banner-content">
+          <h2>Enterprise Golden Path Template</h2>
+          <p>
+            Standardized microservice boilerplate deployed via <strong>Zero-Privilege GitOps</strong>.
+            Packaged with single-writer <strong>SQLite WAL</strong> on persistent Azure Files,
+            automated <strong>Microsoft Entra ID EasyAuth SSO</strong>, and scale-to-zero capabilities.
+          </p>
+          <div class="metrics-row">
+            <div class="metric">
+              <span class="metric-val" id="health-status">Checking...</span>
+              <span class="metric-label">Health Probe</span>
+            </div>
+            <div class="metric">
+              <span class="metric-val">0.25 vCPU / 0.5Gi</span>
+              <span class="metric-label">Compute Quota</span>
+            </div>
+            <div class="metric">
+              <span class="metric-val">Azure Files SMB</span>
+              <span class="metric-label">Volume Storage</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive Records Section -->
+      <section class="content-grid">
+        <!-- New Entry Form -->
+        <div class="card form-card">
+          <div class="card-header">
+            <h3>Add New Record</h3>
+            <span class="card-subtitle">Saved directly to /data/app.sqlite</span>
+          </div>
+          <form id="record-form">
+            <div class="form-group">
+              <label for="record-title">Record Title / Description</label>
+              <input type="text" id="record-title" placeholder="e.g. Deploy release v1.4 to production" required>
+            </div>
+            <div class="form-group">
+              <label for="record-category">Category</label>
+              <select id="record-category">
+                <option value="Engineering">Engineering</option>
+                <option value="Operations">Operations</option>
+                <option value="Platform">Platform</option>
+                <option value="Security">Security</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="btn-submit">
+              <span>Save Record</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Live Database Records Feed -->
+        <div class="card list-card">
+          <div class="card-header">
+            <h3>Active Persistent Records</h3>
+            <span class="record-counter" id="record-count">0 items</span>
+          </div>
+          <div class="records-container" id="records-list">
+            <div class="loading-state">Loading records...</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Azure Container Apps GitOps Platform Reference Architecture • Deployed via GitHub Actions</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
